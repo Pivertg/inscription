@@ -1,16 +1,16 @@
 // Liste de questions
 const questions = [
- "Quel est ton pseudo discord ?",
- "Quel est ton ton plus gros rank en classer ?",
- "Pouquoie veux tu faire de l'e sport ?",
- "Quelle est ton objectif en voulant rejoindre l'équipe ?",
- "Quel est ton âge ?",
- "As-tu déjà participé à des matchérino ? Si oui, a tu fini a quelle manche ?",
- "As-tu des mate avec qui tu voudrais jouer ?",
- "Quelle sont tes disponibilités pour les entraînements ?",
- "Peut tu voc?",
- "Sur quelle type d'appareil joue tu ?",
-];
+     "Quel est ton pseudo discord ?",
+     "Quel est ton plus haut rank en classé ?",
+     "Pourquoi veux-tu faire de l'esport ?",
+     "Quelle est ton objectif en voulant rejoindre l'équipe ?",
+     "Quel est ton âge ?",
+     "As-tu déjà participé à des matcherino ? Si oui, jusqu’à quelle manche es-tu allé ?",
+     "As-tu des mate avec qui tu voudrais jouer ?",
+     "Quelle sont tes disponibilités pour les entraînements ?",
+     "Peut tu voc?",
+     "Sur quel appareil joues-tu ?",
+   ];
 let answers = new Array(questions.length).fill("");
 let current = 0;
 
