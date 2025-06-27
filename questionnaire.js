@@ -8,7 +8,7 @@ const questions = [
      "As-tu déjà participé à des matcherino ? Si oui, jusqu’à quelle manche es-tu allé ?",
      "As-tu des mate avec qui tu voudrais jouer ?",
      "Quelle sont tes disponibilités pour les entraînements ?",
-     "Peut tu voc?",
+     "Peux tu voc?",
      "Sur quel appareil joues-tu ?",
    ];
 let answers = new Array(questions.length).fill("");
