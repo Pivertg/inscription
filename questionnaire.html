@@ -76,7 +76,7 @@
     function sendAnswers() {
       answers[current] = document.getElementById('answerInput').value;
       // Remplace par ton URL webhook Discord
-      const webhook = "https://discord.com/api/webhooks/1388094658411888751/5d3-INOwp9kqomyjQoq_nzJu7jukUJQZiTGAkD8Jd0HGgpMDfL-49T5wL7_Vi88PftNy";
+      const webhook = "https://discord.com/api/webhooks/1388876577819066469/LT88H1fJHUmFLVPgHAy-jv29d2T1PQuKK0xeEggrXhGd5DLyy64R3Xf-hgQqnzy7pIKz";
       const content = questions.map((q, i) => `**${q}**\n${answers[i]}`).join('\n\n');
       fetch(webhook, {
         method: "POST",
