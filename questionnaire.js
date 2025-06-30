@@ -1,16 +1,17 @@
 // Liste de questions
 const questions = [
-      "Quel est ton pseudo discord ?",
-      "Quel est ton plus haut rank en classé ?",
-      "Pourquoi veux-tu faire de l'esport ?",
-      "Quel est ton objectif en voulant rejoindre l'équipe ?",
-      "Quel est ton âge ?",
-      "As-tu déjà participé à des matcherino ? Si oui, jusqu’à quelle manche es-tu allé ?",
-      "As-tu des mate avec qui tu voudrais jouer ?",
-      "Quelles sont tes disposnibilités pour les entraînements ?",
-      "Peut tu voc?",
-      "Sur quel appareil joues-tu ?",
-   ];
+  "Quelle langue parles-tu ?",
+  "Quel est ton pseudo discord ?",
+  "Quel est ton ton plus gros rank en classer ?",
+  "Pouquoie veux tu faire de l'e sport ?",
+  "Quelle est ton objectif en voulant rejoindre l'équipe ?",
+  "Quel est ton âge ?",
+  "As-tu déjà participé à des matchérino ? Si oui, a tu fini a quelle manche ?",
+  "As-tu des mate avec qui tu voudrais jouer ?",
+  "Quelle sont tes disponibilités pour les entraînements ?",
+  "Peut tu voc?",
+  "Sur quelle type d'appareil joue tu ?",
+];
 let answers = new Array(questions.length).fill("");
 let current = 0;
 
@@ -46,7 +47,22 @@ function sendAnswers() {
   answers[current] = document.getElementById('answerInput').value;
   // Remplace par ton URL webhook Discord
   const webhook = "https://discord.com/api/webhooks/1388876577819066469/LT88H1fJHUmFLVPgHAy-jv29d2T1PQuKK0xeEggrXhGd5DLyy64R3Xf-hgQqnzy7pIKz";
-  const content = questions.map((q, i) => `**${q}**\n${answers[i]}`).join('\n\n');
+  // Questions en français pour l'envoi Discord (y compris la langue)
+  const questionsFR = [
+    "Quelle langue parles-tu ?",
+    "Quel est ton pseudo discord ?",
+    "Quel est ton ton plus gros rank en classer ?",
+    "Pouquoie veux tu faire de l'e sport ?",
+    "Quelle est ton objectif en voulant rejoindre l'équipe ?",
+    "Quel est ton âge ?",
+    "As-tu déjà participé à des matchérino ? Si oui, a tu fini a quelle manche ?",
+    "As-tu des mate avec qui tu voudrais jouer ?",
+    "Quelle sont tes disponibilités pour les entraînements ?",
+    "Peut tu voc?",
+    "Sur quelle type d'appareil joue tu ?",
+  ];
+  // On envoie toutes les questions, y compris la langue
+  const content = questionsFR.map((q, i) => `**${q}**\n${answers[i] || ''}`).join('\n\n');
   fetch(webhook, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

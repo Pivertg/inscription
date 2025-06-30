@@ -13,6 +13,7 @@
   <div class="card">
     <div class="wrap">
       <div class="terminal">
+        <!-- La question de langue sera affichée comme la question 1 du questionnaire -->
         <hgroup class="head">
           <p class="title" id="questionTitle">Question 1</p>
         </hgroup>
@@ -30,26 +31,99 @@
     </div>
   </div>
   <script>
-    // Liste de questions
-    const questions = [
-      "Quel est ton pseudo discord ?",
-      "Quel est ton plus haut rank en classé ?",
-      "Pourquoi veux-tu faire de l'esport ?",
-      "Quel est ton objectif en voulant rejoindre l'équipe ?",
-      "Quel est ton âge ?",
-      "As-tu déjà participé à des matcherino ? Si oui, jusqu’à quelle manche es-tu allé ?",
-      "As-tu des mate avec qui tu voudrais jouer ?",
-      "Quelles sont tes disposnibilités pour les entraînements ?",
-      "Peut tu voc?",
-      "Sur quel appareil joues-tu ?",
-    ];
+    // Questions en plusieurs langues, la langue est la question 1
+    const questionsByLang = {
+      FR: [
+        "Quel est ton pseudo discord ?",
+        "Quel est ton ton plus gros rank en classer ?",
+        "Pouquoie veux tu faire de l'e sport ?",
+        "Quelle est ton objectif en voulant rejoindre l'équipe ?",
+        "Quel est ton âge ?",
+        "As-tu déjà participé à des matchérino ? Si oui, a tu fini a quelle manche ?",
+        "As-tu des mate avec qui tu voudrais jouer ?",
+        "Quelle sont tes disponibilités pour les entraînements ?",
+        "Peut tu voc?",
+        "Sur quelle type d'appareil joue tu ?",
+      ],
+      EN: [
+        "What is your discord username?",
+        "What is your highest rank in ranked mode?",
+        "Why do you want to do e-sport?",
+        "What is your goal in joining the team?",
+        "How old are you?",
+        "Have you ever participated in matchérino? If yes, how far did you go?",
+        "Do you have teammates you want to play with?",
+        "What are your availabilities for training?",
+        "Can you use voice chat?",
+        "On which device do you play?",
+      ],
+      ES: [
+        "¿Cuál es tu usuario de discord?",
+        "¿Cuál es tu rango más alto en clasificatoria?",
+        "¿Por qué quieres hacer e-sport?",
+        "¿Cuál es tu objetivo al unirte al equipo?",
+        "¿Cuántos años tienes?",
+        "¿Has participado en matchérino? Si sí, ¿hasta qué ronda llegaste?",
+        "¿Tienes compañeros con los que quieras jugar?",
+        "¿Cuáles son tus disponibilidades para los entrenamientos?",
+        "¿Puedes usar voz?",
+        "¿En qué tipo de dispositivo juegas?",
+      ]
+    };
+    // Ajoute la question de langue en première position
+    const langQuestion = {
+      FR: "Quelle langue parles-tu ?",
+      EN: "Which language do you speak?",
+      ES: "¿Qué idioma hablas?"
+    };
+    let lang = "FR";
+    let questions = [langQuestion[lang], ...questionsByLang[lang]];
     let answers = new Array(questions.length).fill("");
     let current = 0;
 
     function showQuestion() {
       document.getElementById('questionTitle').textContent = `Question ${current + 1}`;
       document.getElementById('questionText').textContent = questions[current];
-      document.getElementById('answerInput').value = answers[current] || "";
+      // Affiche un select pour la question de langue, sinon un input texte
+      const answerInput = document.getElementById('answerInput');
+      if (current === 0) {
+        answerInput.style.display = 'none';
+        if (!document.getElementById('langSelectQ')) {
+          const select = document.createElement('select');
+          select.id = 'langSelectQ';
+          select.className = 'form-input';
+          select.style.maxWidth = '300px';
+          [
+            { value: 'FR', label: 'FR' },
+            { value: 'EN', label: 'EN' },
+            { value: 'ES', label: 'ES' }
+          ].forEach(opt => {
+            const o = document.createElement('option');
+            o.value = opt.value;
+            o.textContent = opt.label;
+            select.appendChild(o);
+          });
+          select.value = lang;
+          select.onchange = function() {
+            lang = select.value;
+            // Réinitialise les questions et réponses
+            questions = [langQuestion[lang], ...questionsByLang[lang]];
+            answers = new Array(questions.length).fill("");
+            answers[0] = lang;
+            current = 0;
+            showQuestion();
+          };
+          answerInput.parentNode.insertBefore(select, answerInput);
+        }
+        document.getElementById('langSelectQ').style.display = '';
+        document.getElementById('langSelectQ').value = answers[0] || lang;
+      } else {
+        answerInput.style.display = '';
+        answerInput.value = answers[current] || "";
+        if (document.getElementById('langSelectQ')) {
+          document.getElementById('langSelectQ').style.display = 'none';
+        }
+      }
       document.getElementById('btnPrev').style.display = current === 0 ? "none" : "";
       document.getElementById('btnNext').style.display = current === questions.length - 1 ? "none" : "";
       document.getElementById('btnSend').style.display = current === questions.length - 1 ? "" : "none";
@@ -57,8 +131,23 @@
     }
     showQuestion();
 
+    // La gestion de la langue se fait maintenant dans showQuestion()
+
     function nextQuestion() {
-      answers[current] = document.getElementById('answerInput').value;
+      if (current === 0) {
+        // Récupère la langue choisie
+        const select = document.getElementById('langSelectQ');
+        answers[0] = select.value;
+        lang = select.value;
+        // Met à jour les questions et réponses
+        questions = [langQuestion[lang], ...questionsByLang[lang]];
+        // Conserve la langue choisie, efface le reste
+        const oldAnswers = answers;
+        answers = new Array(questions.length).fill("");
+        answers[0] = lang;
+      } else {
+        answers[current] = document.getElementById('answerInput').value;
+      }
       if (current < questions.length - 1) {
         current++;
         showQuestion();
@@ -66,18 +155,25 @@
     }
 
     function prevQuestion() {
-      answers[current] = document.getElementById('answerInput').value;
+      if (current === 0) return;
       if (current > 0) {
+        if (current !== 1) {
+          answers[current] = document.getElementById('answerInput').value;
+        }
         current--;
         showQuestion();
       }
     }
 
     function sendAnswers() {
-      answers[current] = document.getElementById('answerInput').value;
+      if (current === 0) {
+        answers[0] = document.getElementById('langSelectQ').value;
+      } else {
+        answers[current] = document.getElementById('answerInput').value;
+      }
       // Remplace par ton URL webhook Discord
       const webhook = "https://discord.com/api/webhooks/1388876577819066469/LT88H1fJHUmFLVPgHAy-jv29d2T1PQuKK0xeEggrXhGd5DLyy64R3Xf-hgQqnzy7pIKz";
-      const content = questions.map((q, i) => `**${q}**\n${answers[i]}`).join('\n\n');
+      let content = questions.map((q, i) => `**${q}**\n${answers[i]}`).join('\n\n');
       fetch(webhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
