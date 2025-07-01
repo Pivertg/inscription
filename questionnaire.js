@@ -46,7 +46,7 @@ function prevQuestion() {
 function sendAnswers() {
   answers[current] = document.getElementById('answerInput').value;
   // Remplace par ton URL webhook Discord
-  const webhook = "https://discord.com/api/webhooks/1388876577819066469/LT88H1fJHUmFLVPgHAy-jv29d2T1PQuKK0xeEggrXhGd5DLyy64R3Xf-hgQqnzy7pIKz";
+  const webhook = "https://discord.com/api/webhooks/1389559141348937748/1-4tprZ2WFjpjBerEAJqv_w2LzAxgLWz1aiB4wyaMy326VK58cFXwGFSF0zjJU1iTOXR";
   // Questions en français pour l'envoi Discord (y compris la langue)
   const questionsFR = [
     "Quelle langue parles-tu ?",
