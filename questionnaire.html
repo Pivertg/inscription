@@ -37,10 +37,10 @@
       FR: [
         "Quel est ton pseudo discord ?",
         "Quel est ton ton plus gros rank en classer ?",
-        "Pouquoi veux tu faire de l'e sport ?",
+        "Pouquoie veux tu faire de l'e sport ?",
         "Quelle est ton objectif en voulant rejoindre l'équipe ?",
         "Quel est ton âge ?",
-        "As-tu déjà participé à des matchérino ? Si oui, a tu fini a quelle manche ?",
+        "As-tu déjà participé à des matchérino ? Si oui, quelle manche as-tu atteint ?",
         "As-tu des mate avec qui tu voudrais jouer ?",
         "Quelle sont tes disponibilités pour les entraînements ?",
         "Peut tu voc?",
@@ -52,7 +52,7 @@
         "Why do you want to do e-sport?",
         "What is your goal in joining the team?",
         "How old are you?",
-        "Have you ever participated in matchérino? If yes, how far did you go?",
+        "Have you ever participated in matchérino? If yes, which round did you reach?",
         "Do you have teammates you want to play with?",
         "What are your availabilities for training?",
         "Can you use voice chat?",
@@ -64,7 +64,7 @@
         "¿Por qué quieres hacer e-sport?",
         "¿Cuál es tu objetivo al unirte al equipo?",
         "¿Cuántos años tienes?",
-        "¿Has participado en matchérino? Si sí, ¿hasta qué ronda llegaste?",
+        "¿Has participado en matchérino? Si sí, ¿qué ronda alcanzaste?",
         "¿Tienes compañeros con los que quieras jugar?",
         "¿Cuáles son tus disponibilidades para los entrenamientos?",
         "¿Puedes usar voz?",
@@ -172,9 +172,19 @@
       } else {
         answers[current] = document.getElementById('answerInput').value;
       }
-      // Utilise la variable du webhook importée
+      // Utilise la variable du webhook encodée en base64 si dispo
+      let webhook = '';
+      if (typeof DISCORD_WEBHOOK_BASE64 !== 'undefined') {
+        try {
+          webhook = atob(DISCORD_WEBHOOK_BASE64);
+        } catch (e) {
+          webhook = '';
+        }
+      } else if (typeof DISCORD_WEBHOOK !== 'undefined') {
+        webhook = DISCORD_WEBHOOK;
+      }
       let content = questions.map((q, i) => `**${q}**\n${answers[i]}`).join('\n\n');
-      fetch(typeof DISCORD_WEBHOOK !== 'undefined' ? DISCORD_WEBHOOK : '', {
+      fetch(webhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content })
