@@ -172,16 +172,14 @@
       } else {
         answers[current] = document.getElementById('answerInput').value;
       }
-      // Utilise la variable du webhook encodée en base64 si dispo
+      // Utilise la variable du webhook importée
       let webhook = '';
-      if (typeof DISCORD_WEBHOOK_BASE64 !== 'undefined') {
-        try {
-          webhook = atob(DISCORD_WEBHOOK_BASE64);
-        } catch (e) {
-          webhook = '';
-        }
-      } else if (typeof DISCORD_WEBHOOK !== 'undefined') {
+      if (typeof DISCORD_WEBHOOK !== 'undefined') {
         webhook = DISCORD_WEBHOOK;
+      }
+      if (!webhook) {
+        alert("Webhook Discord non défini !");
+        return;
       }
       let content = questions.map((q, i) => `**${q}**\n${answers[i]}`).join('\n\n');
       fetch(webhook, {
