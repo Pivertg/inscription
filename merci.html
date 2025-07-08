@@ -11,10 +11,36 @@
   </style>
 </head>
 <body>
-  <div class="merci-card">
-    <h1>Merci pour vos réponses !</h1>
-    <p>Si vous n'êtes pas déjà sur le serveur Discord, rejoignez-nous ici :</p>
-    <p><a class="discord-link" href="https://discord.gg/kSV3RUEsmM" target="_blank">https://discord.gg/kSV3RUEsmM</a></p>
+  <div class="merci-card" id="merciCard">
+    <!-- Le contenu sera injecté par JS selon la langue -->
   </div>
+  <script>
+    // Récupère la langue depuis l'URL
+    function getLangFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('lang') || 'FR';
+    }
+    const lang = getLangFromUrl();
+    const texts = {
+      FR: {
+        title: "Merci pour vos réponses !",
+        invite: "Si vous n'êtes pas déjà sur le serveur Discord, rejoignez-nous ici :"
+      },
+      EN: {
+        title: "Thank you for your answers!",
+        invite: "If you are not already on the Discord server, join us here:"
+      },
+      ES: {
+        title: "¡Gracias por tus respuestas!",
+        invite: "Si aún no estás en el servidor de Discord, únete aquí:"
+      }
+    };
+    const t = texts[lang] || texts.FR;
+    document.getElementById('merciCard').innerHTML = `
+      <h1>${t.title}</h1>
+      <p>${t.invite}</p>
+      <p><a class="discord-link" href="https://discord.gg/kSV3RUEsmM" target="_blank">https://discord.gg/kSV3RUEsmM</a></p>
+    `;
+  </script>
 </body>
 </html>
